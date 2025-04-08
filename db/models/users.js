@@ -1,10 +1,10 @@
 'use strict';
 
-const { Sequelize,DataTypes } = require("sequelize");
+const { Sequelize} = require("sequelize");
 const sequelize = require("../../config/database");
 const bcrypt = require("bcrypt");
 
-const user = sequelize.define("Users", {
+const User = sequelize.define("users", {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -47,7 +47,7 @@ const user = sequelize.define("Users", {
     }
   },
   role: {
-    type: DataTypes.ENUM("user", "bussinessAdmin","superAdmin"),
+    type: Sequelize.ENUM("user", "bussinessAdmin","superAdmin"),
       allowNull: false,
       defaultValue: "user"
   },
@@ -66,17 +66,17 @@ const user = sequelize.define("Users", {
 {
   paranoid: true,
   freezeTableName: true,
-  modelName: "user",
+  modelName: "User",
 });
 
-user.associate = (models) => {
-  user.hasOne(models.Business, {
+User.associate = (models) => {
+  User.hasOne(models.Business, {
     foreignKey: "ownerId",
     as: "business",
   });
 };
 
-module.exports = user;
+module.exports = User;
 // const {
 //   Model
 // } = require('sequelize');

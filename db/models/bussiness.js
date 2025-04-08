@@ -2,7 +2,7 @@
 const {Sequelize,DataTypes} = require("sequelize");
 const sequelize = require("../../config/database");
 
-const bussiness = sequelize.define("Bussiness", {
+const Bussiness = sequelize.define("bussinesses", {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -12,7 +12,7 @@ const bussiness = sequelize.define("Bussiness", {
     ownerId: {
       type: Sequelize.INTEGER,
       references: {
-        model: "Users",
+        model: "users",
         key: "id",
       },
       onDelete: "CASCADE", // optional: delete business if user is deleted
@@ -47,20 +47,20 @@ const bussiness = sequelize.define("Bussiness", {
     },
 })
 
-business.associate = (models) => {
-  business.belongsTo(models.User, {
+Business.associate = (models) => {
+  Business.belongsTo(models.User, {
     foreignKey: "ownerId",
     as: "owner",
   });
 
-  business.belongsTo(models.Subscription, {
+  Business.belongsTo(models.Subscription, {
     foreignKey: "subscriptionId",
-    as: "subscription",
+    as: "subscriptions",
   });
 };
 
 
-module.exports = bussiness;
+module.exports = Bussiness;
 
 // const {
 //   Model

@@ -1,8 +1,8 @@
 "use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Users", {
+  async up(queryInterface, Sequelize,) {
+    await queryInterface.createTable("users", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       role: {
-        type: DataTypes.ENUM("user", "bussinessAdmin","superAdmin"),
+        type: Sequelize.ENUM("user", "bussinessAdmin","superAdmin"),
         allowNull: false,
         defaultValue: "user"
       },
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("users");
   },
 };

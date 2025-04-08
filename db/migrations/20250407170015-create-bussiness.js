@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Bussinesses", {
+    await queryInterface.createTable("bussinesses", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,7 +12,7 @@ module.exports = {
       ownerId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
         },
         onDelete: "CASCADE", // optional: delete business if user is deleted
@@ -28,10 +28,10 @@ module.exports = {
         type: Sequelize.STRING,
       },
       subscriptionId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Subscriptions",
+          model: "subscriptions",
           key: "id",
         },
         onUpdate: "CASCADE",

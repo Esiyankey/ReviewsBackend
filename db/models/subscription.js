@@ -1,8 +1,8 @@
 'use strict';
-const {Sequelize,DataTypes} = require("sequelize");
+const {Sequelize} = require("sequelize");
 const sequelize = require("../../config/database");
 
-const subscription = sequelize.define("Subscription", {
+const Subscription = sequelize.define("subscriptions", {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -10,14 +10,14 @@ const subscription = sequelize.define("Subscription", {
     type: Sequelize.INTEGER,
   },
   plan: {
-    type: DataTypes.ENUM("basic", "premium"),
+    type: Sequelize.ENUM("basic", "premium"),
     allowNull: false,
     defaultValue: "basic",
   },
   status: {
-    type: DataTypes.ENUM("active", "inactive"),
+    type: Sequelize.ENUM("active", "inactive"),
     allowNull: false,
-    defaultValue: "basic",
+    defaultValue: "inactive",
   },
   startDate: {
     type: Sequelize.DATE,
@@ -40,7 +40,7 @@ Subscription.hasMany(models.Business, {
   as: "businesses", // optional alias
 });
 
-module.exports = subscription;
+module.exports = Subscription;
 // const {
 //   Model
 // } = require('sequelize');
