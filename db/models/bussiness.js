@@ -1,5 +1,5 @@
 'use strict';
-const {Sequelize,DataTypes} = require("sequelize");
+const {Sequelize} = require("sequelize");
 const sequelize = require("../../config/database");
 
 const Bussiness = sequelize.define("bussinesses", {
@@ -56,6 +56,14 @@ Business.associate = (models) => {
   Business.belongsTo(models.Subscription, {
     foreignKey: "subscriptionId",
     as: "subscriptions",
+  });
+  Business.hasMany(models.Review, {
+    foreignKey: "bussinessId",
+    as: "reviews",
+  });
+  Business.hasOne(models.QrCode, {
+    foreignKey: "bussinessId",
+    as: "qrcodes",
   });
 };
 

@@ -74,6 +74,15 @@ User.associate = (models) => {
     foreignKey: "ownerId",
     as: "business",
   });
+  User.hasMany(models.Review, {
+    foreignKey: "userId",
+    as: "reviews",
+  });
+  User.hasMany(models.Report, {
+    foreignKey: "reportedBy",
+    as: "reports",
+  });
+ 
 };
 
 module.exports = User;
