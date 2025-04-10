@@ -1,5 +1,5 @@
 'use strict';
-const {Sequelize} = require("sequelize");
+const { Sequelize } = require("sequelize");
 const sequelize = require("../../config/database");
 
 const Subscription = sequelize.define("subscriptions", {
@@ -7,17 +7,25 @@ const Subscription = sequelize.define("subscriptions", {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
+    type: Sequelize.INTEGER
+  },
+  businessId: {
     type: Sequelize.INTEGER,
+    references: {
+      model: "bussinesses",
+      key: "id",
+    },
+    onDelete: "CASCADE", // optional: delete subscription if business is deleted
+    onUpdate: "CASCADE",
   },
-  plan: {
-    type: Sequelize.ENUM("basic", "premium"),
-    allowNull: false,
-    defaultValue: "basic",
-  },
-  status: {
-    type: Sequelize.ENUM("active", "inactive"),
-    allowNull: false,
-    defaultValue: "inactive",
+  subscriptionPlanId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: "subscriptionPlans",
+      key: "id",
+    },
+    onDelete: "CASCADE", // optional: delete subscription if plan is deleted
+    onUpdate: "CASCADE",
   },
   startDate: {
     type: Sequelize.DATE,
@@ -25,27 +33,28 @@ const Subscription = sequelize.define("subscriptions", {
   endDate: {
     type: Sequelize.DATE,
   },
-  createdAt: {
-    allowNull: false,
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    allowNull: false,
-    type: Sequelize.DATE,
-  },
-})
-
-Subscription.hasMany(models.Business, {
-  foreignKey: "subscriptionId",
-  as: "businesses", // optional alias
 });
+Subscription.associate = (models) => {
+  Subscription.belongsTo(models.Bussiness, {
+    foreignKey: "businessId",
+    as: "business",
+  });
+
+  Subscription.belongsTo(models.SubscriptionPlan, {
+    foreignKey: "subscriptionPlanId",
+    as: "subscriptionPlan",
+  });
+};
+
 
 module.exports = Subscription;
+
+
 // const {
 //   Model
 // } = require('sequelize');
 // module.exports = (sequelize, DataTypes) => {
-//   class Subscription extends Model {
+//   class subscription extends Model {
 //     /**
 //      * Helper method for defining associations.
 //      * This method is not a part of Sequelize lifecycle.
@@ -55,14 +64,14 @@ module.exports = Subscription;
 //       // define association here
 //     }
 //   }
-//   Subscription.init({
-//     plan: DataTypes.STRING,
-//     status: DataTypes.STRING,
+//   subscription.init({
+//     businessId: DataTypes.INTEGER,
+//     subscriptionPlanId: DataTypes.INTEGER,
 //     startDate: DataTypes.DATE,
 //     endDate: DataTypes.DATE
 //   }, {
 //     sequelize,
-//     modelName: 'Subscription',
+//     modelName: 'subscription',
 //   });
-//   return Subscription;
+//   return subscription;
 // };
