@@ -1,12 +1,14 @@
 const bussiness = require("../db/models/bussiness");
 const User = require("../db/models/users");
 const Subscription = require("../db/models/subscription");
+const SubscriptionPlan = require("../db/models/subscriptionplan");
 
 const registerBusiness = async (req, res) => {
+    const body = req.body;
 
     const user = User.findOne({
         where: {
-            id: req.body.id,
+            id:body.id,
         },
     });
     if (!user) {
@@ -15,23 +17,22 @@ const registerBusiness = async (req, res) => {
         });
     }
    
-    const subscription = Subscription.findOne({
+    const subscriptionPlanId = SubscriptionPlan.findOne({
         where: {
-            id: req.body.id,
+            subscriptionPlan:body.subscriptionPlan,
         },
     });
-    if (!subscription) {
+    if (!subscriptionPlanId) {
         return res.status(404).json({
             message: "Subscription not found",
         });
     }
-  const body = req.body;
   const business = await bussiness.create({
     ownerId: user.id,
     name: body.name,
     description: body.description,
     qrCode: body.qrCode,
-    subscriptionId: Subscription.id,
+    subscriptionPlanId: subscriptionPlanId.id,
   });
 
     if (business) {

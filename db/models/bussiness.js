@@ -27,11 +27,11 @@ const Bussiness = sequelize.define("bussinesses", {
     qrCode: {
       type: Sequelize.STRING,
     },
-    subscriptionId: {
+    subscriptionPlanId: {
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: "Subscriptions",
+        model: "SubscriptionPlans",
         key: "id",
       },
       onUpdate: "CASCADE",
